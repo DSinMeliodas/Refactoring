@@ -7,10 +7,10 @@
         public const int Regular = 0;
         public const int NewRelease = 1;
 
-        public Movie(string newtitle, int newpriceCode)
+        public Movie(string title, int priceCode)
         {
-            Title = newtitle;
-            PriceCode = newpriceCode;
+            Title = title;
+            PriceCode = priceCode;
         }
 
         public string Title { get; }

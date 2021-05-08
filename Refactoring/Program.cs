@@ -4,7 +4,7 @@ namespace Refactoring
 {
     internal class Program
     {
-        static void Main(string[] args)
+        static void Main()
         {
             string result;
             Console.WriteLine("Welcome to the Movie Store");

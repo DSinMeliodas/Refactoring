@@ -6,16 +6,16 @@ namespace Refactoring
     {
         private readonly ArrayList m_Rentals = new ArrayList();
 
-        public Customer(string newname)
+        public Customer(string name)
         {
-            Name = newname;
+            Name = name;
         }
 
         public string Name { get; }
 
-        public void AddRental(Rental arg)
+        public void AddRental(Rental aRental)
         {
-            m_Rentals.Add(arg);
+            m_Rentals.Add(aRental);
         }
 
         public string Statement()
@@ -47,23 +47,23 @@ namespace Refactoring
             return result;
         }
 
-        private double AmountFor(Rental each)
+        private double AmountFor(Rental aRental)
         {
             double thisAmount = 0;
-            switch (each.Movie.PriceCode)
+            switch (aRental.Movie.PriceCode)
             {
                 case Movie.Regular:
                     thisAmount += 2;
-                    if (each.DaysRented > 2)
-                        thisAmount += (each.DaysRented - 2) * 1.5;
+                    if (aRental.DaysRented > 2)
+                        thisAmount += (aRental.DaysRented - 2) * 1.5;
                     break;
                 case Movie.NewRelease:
-                    thisAmount += each.DaysRented * 3;
+                    thisAmount += aRental.DaysRented * 3;
                     break;
                 case Movie.Childrens:
                     thisAmount += 1.5;
-                    if (each.DaysRented > 3)
-                        thisAmount += (each.DaysRented - 3) * 1.5;
+                    if (aRental.DaysRented > 3)
+                        thisAmount += (aRental.DaysRented - 3) * 1.5;
                     break;
             }
             return thisAmount;

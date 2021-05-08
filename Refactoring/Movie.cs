@@ -14,17 +14,17 @@
         m_PriceCode = newpriceCode;
     }
 
-    public int getPriceCode()
+    public int GetPriceCode()
     {
         return m_PriceCode;
     }
 
-    public void setPriceCode(int arg)
+    public void SetPriceCode(int arg)
     {
         m_PriceCode = arg;
     }
 
-    public string getTitle()
+    public string GetTitle()
     {
         return m_Title;
     }

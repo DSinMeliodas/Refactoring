@@ -10,12 +10,12 @@
         m_DaysRented = newdaysRented;
     }
 
-    public int getDaysRented()
+    public int GetDaysRented()
     {
         return m_DaysRented;
     }
 
-    public Movie getMovie()
+    public Movie GetMovie()
     {
         return m_Movie;
     }

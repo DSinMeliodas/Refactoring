@@ -11,22 +11,22 @@ class Customer
         m_Name = newname;
     }
 
-    public void addRental(Rental arg)
+    public void AddRental(Rental arg)
     {
         m_Rentals.Add(arg);
     }
 
-    public string getName()
+    public string GetName()
     {
         return m_Name;
     }
 
-    public string statement()
+    public string Statement()
     {
         double totalAmount = 0;
         int frequentRenterPoints = 0;
         IEnumerator enum_rentals = m_Rentals.GetEnumerator();
-        string result = "Rental Record for " + this.getName() + "\n";
+        string result = "Rental Record for " + this.GetName() + "\n";
         result += "\t" + "Title" + "\t" + "\t" + "Days" + "\t" + "Amount" + "\n";
 
         while (enum_rentals.MoveNext())
@@ -34,14 +34,14 @@ class Customer
             double thisAmount = 0;
             Rental each = (Rental) enum_rentals.Current;
             //determine amounts for each line
-            thisAmount = amountFor(each);
+            thisAmount = AmountFor(each);
             // add frequent renter points
             frequentRenterPoints++;
             // add bonus for a two day new release rental
-            if ((each.getMovie().getPriceCode() == Movie.NewRelease) && each.getDaysRented() > 1)
+            if ((each.GetMovie().GetPriceCode() == Movie.NewRelease) && each.GetDaysRented() > 1)
                 frequentRenterPoints++;
             //show figures for this rental
-            result += "\t" + each.getMovie().getTitle() + "\t" + "\t" + each.getDaysRented() + "\t" + thisAmount + "\n";
+            result += "\t" + each.GetMovie().GetTitle() + "\t" + "\t" + each.GetDaysRented() + "\t" + thisAmount + "\n";
             totalAmount += thisAmount;
         }
         //add footer lines
@@ -50,23 +50,23 @@ class Customer
         return result;
     }
 
-    private double amountFor(Rental each)
+    private double AmountFor(Rental each)
     {
         double thisAmount = 0;
-        switch (each.getMovie().getPriceCode())
+        switch (each.GetMovie().GetPriceCode())
         {
         case Movie.Regular:
             thisAmount += 2;
-            if (each.getDaysRented() > 2)
-                thisAmount += (each.getDaysRented() - 2) * 1.5;
+            if (each.GetDaysRented() > 2)
+                thisAmount += (each.GetDaysRented() - 2) * 1.5;
             break;
         case Movie.NewRelease:
-            thisAmount += each.getDaysRented() * 3;
+            thisAmount += each.GetDaysRented() * 3;
             break;
         case Movie.Childrens:
             thisAmount += 1.5;
-            if (each.getDaysRented() > 3)
-                thisAmount += (each.getDaysRented() - 3) * 1.5;
+            if (each.GetDaysRented() > 3)
+                thisAmount += (each.GetDaysRented() - 3) * 1.5;
             break;
         }
         return thisAmount;

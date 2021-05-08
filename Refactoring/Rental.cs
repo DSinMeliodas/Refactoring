@@ -2,10 +2,10 @@
 {
     internal class Rental
     {
-        public Rental(Movie newmovie, int newdaysRented)
+        public Rental(Movie movie, int daysRented)
         {
-            Movie = newmovie;
-            DaysRented = newdaysRented;
+            Movie = movie;
+            DaysRented = daysRented;
         }
 
         public Movie Movie { get; }

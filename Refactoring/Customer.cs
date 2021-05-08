@@ -4,23 +4,18 @@ namespace Refactoring
 {
     internal class Customer
     {
-
-        private string m_Name;
-        private ArrayList m_Rentals = new ArrayList();
+        private readonly ArrayList m_Rentals = new ArrayList();
 
         public Customer(string newname)
         {
-            m_Name = newname;
+            Name = newname;
         }
+
+        public string Name { get; }
 
         public void AddRental(Rental arg)
         {
             m_Rentals.Add(arg);
-        }
-
-        public string GetName()
-        {
-            return m_Name;
         }
 
         public string Statement()
@@ -28,7 +23,7 @@ namespace Refactoring
             double totalAmount = 0;
             int frequentRenterPoints = 0;
             IEnumerator enum_rentals = m_Rentals.GetEnumerator();
-            string result = "Rental Record for " + this.GetName() + "\n";
+            string result = "Rental Record for " + Name + "\n";
             result += "\t" + "Title" + "\t" + "\t" + "Days" + "\t" + "Amount" + "\n";
 
             while (enum_rentals.MoveNext())
@@ -40,10 +35,10 @@ namespace Refactoring
                 // add frequent renter points
                 frequentRenterPoints++;
                 // add bonus for a two day new release rental
-                if ((each.GetMovie().GetPriceCode() == Movie.NewRelease) && each.GetDaysRented() > 1)
+                if ((each.Movie.PriceCode == Movie.NewRelease) && each.DaysRented > 1)
                     frequentRenterPoints++;
                 //show figures for this rental
-                result += "\t" + each.GetMovie().GetTitle() + "\t" + "\t" + each.GetDaysRented() + "\t" + thisAmount + "\n";
+                result += "\t" + each.Movie.Title + "\t" + "\t" + each.DaysRented + "\t" + thisAmount + "\n";
                 totalAmount += thisAmount;
             }
             //add footer lines
@@ -55,20 +50,20 @@ namespace Refactoring
         private double AmountFor(Rental each)
         {
             double thisAmount = 0;
-            switch (each.GetMovie().GetPriceCode())
+            switch (each.Movie.PriceCode)
             {
                 case Movie.Regular:
                     thisAmount += 2;
-                    if (each.GetDaysRented() > 2)
-                        thisAmount += (each.GetDaysRented() - 2) * 1.5;
+                    if (each.DaysRented > 2)
+                        thisAmount += (each.DaysRented - 2) * 1.5;
                     break;
                 case Movie.NewRelease:
-                    thisAmount += each.GetDaysRented() * 3;
+                    thisAmount += each.DaysRented * 3;
                     break;
                 case Movie.Childrens:
                     thisAmount += 1.5;
-                    if (each.GetDaysRented() > 3)
-                        thisAmount += (each.GetDaysRented() - 3) * 1.5;
+                    if (each.DaysRented > 3)
+                        thisAmount += (each.DaysRented - 3) * 1.5;
                     break;
             }
             return thisAmount;

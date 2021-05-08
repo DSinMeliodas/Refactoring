@@ -8,14 +8,14 @@ namespace Refactoring
         {
             string result;
             Console.WriteLine("Welcome to the Movie Store");
-            Movie m1 = new Movie("movie1", 1);
-            Movie m2 = new Movie("movie2", 2);
-            Rental r1 = new Rental(m1, 10);
-            Rental r2 = new Rental(m2, 5);
-            Customer c1 = new Customer("joe");
-            c1.AddRental(r1); c1.AddRental(r2);
+            Movie movie1 = new Movie("movie1", 1);
+            Movie movie2 = new Movie("movie2", 2);
+            Rental rentalMovie1 = new Rental(movie1, 10);
+            Rental rentalMovie2 = new Rental(movie2, 5);
+            Customer joe = new Customer("joe");
+            joe.AddRental(rentalMovie1); joe.AddRental(rentalMovie2);
             Console.WriteLine("Let's get the Statement");
-            result = c1.Statement();
+            result = joe.Statement();
             Console.WriteLine(result);
         }
     }

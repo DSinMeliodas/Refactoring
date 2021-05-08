@@ -20,31 +20,31 @@ namespace Refactoring
 
         public string Statement()
         {
-            double totalAmount = 0;
+            double owedAmount = 0;
             int frequentRenterPoints = 0;
-            IEnumerator enum_rentals = m_Rentals.GetEnumerator();
-            string result = "Rental Record for " + Name + "\n";
-            result += "\t" + "Title" + "\t" + "\t" + "Days" + "\t" + "Amount" + "\n";
+            IEnumerator rentals = m_Rentals.GetEnumerator();
+            string statement = "Rental Record for " + Name + "\n";
+            statement += "\t" + "Title" + "\t" + "\t" + "Days" + "\t" + "Amount" + "\n";
 
-            while (enum_rentals.MoveNext())
+            while (rentals.MoveNext())
             {
                 double thisAmount = 0;
-                Rental each = (Rental) enum_rentals.Current;
+                Rental currentRental = (Rental) rentals.Current;
                 //determine amounts for each line
-                thisAmount = AmountFor(each);
+                thisAmount = AmountFor(currentRental);
                 // add frequent renter points
                 frequentRenterPoints++;
                 // add bonus for a two day new release rental
-                if ((each.Movie.PriceCode == Movie.NewRelease) && each.DaysRented > 1)
+                if ((currentRental.Movie.PriceCode == Movie.NewRelease) && currentRental.DaysRented > 1)
                     frequentRenterPoints++;
                 //show figures for this rental
-                result += "\t" + each.Movie.Title + "\t" + "\t" + each.DaysRented + "\t" + thisAmount + "\n";
-                totalAmount += thisAmount;
+                statement += "\t" + currentRental.Movie.Title + "\t" + "\t" + currentRental.DaysRented + "\t" + thisAmount + "\n";
+                owedAmount += thisAmount;
             }
             //add footer lines
-            result += "Amount owed is " + totalAmount + "\n";
-            result += "You earned " + frequentRenterPoints + " frequent renter points";
-            return result;
+            statement += "Amount owed is " + owedAmount + "\n";
+            statement += "You earned " + frequentRenterPoints + " frequent renter points";
+            return statement;
         }
 
         private double AmountFor(Rental aRental)

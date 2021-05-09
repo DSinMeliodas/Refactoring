@@ -10,8 +10,8 @@ namespace Refactoring.Tests.Movie
         public delegate TMovie MovieFactory(string title);
 
         private const string MovieNameFormat = "Movie {0}";
-        private const int MovieCount = 100;
-        private const int SmallMovieCount = 10;
+        private const int MovieCount = 10000;
+        private const int SmallMovieCount = 1000;
 
         private static readonly int[] MoviePriceCodes = { RegularPrice.PriceCode, ChildrensPrice.PriceCode, NewReleasePrice.PriceCode };
 

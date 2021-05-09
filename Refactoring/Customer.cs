@@ -41,7 +41,7 @@ namespace Refactoring
                 // add frequent renter points
                 frequentRenterPoints++;
                 // add bonus for a two day new release rental
-                if ((currentRental.Movie.PriceCode == Movie.NewRelease) && currentRental.DaysRented > 1)
+                if ((currentRental.Movie.PriceCode == NewReleaseMovie.Code) && currentRental.DaysRented > 1)
                     frequentRenterPoints++;
                 //show figures for this rental
                 rentalsString += "\t" + currentRental.Movie.Title + "\t" + "\t" + currentRental.DaysRented + "\t" + thisAmount + "\n";
@@ -56,15 +56,15 @@ namespace Refactoring
             double thisAmount = 0;
             switch (aRental.Movie.PriceCode)
             {
-            case Movie.Regular:
+            case RegularMovie.Code:
                 thisAmount += 2;
                 if (aRental.DaysRented > 2)
                     thisAmount += (aRental.DaysRented - 2) * 1.5;
                 break;
-            case Movie.NewRelease:
+            case NewReleaseMovie.Code:
                 thisAmount += aRental.DaysRented * 3;
                 break;
-            case Movie.Childrens:
+            case ChildrensMovie.Code:
                 thisAmount += 1.5;
                 if (aRental.DaysRented > 3)
                     thisAmount += (aRental.DaysRented - 3) * 1.5;

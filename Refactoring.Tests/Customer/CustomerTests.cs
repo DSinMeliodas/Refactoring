@@ -81,7 +81,7 @@ namespace Refactoring.Tests.Customer
 
         private static Func<string, TRental, string> RentalAppendFormatter(string format)
         {
-            return (statement, rental) => statement + string.Format(format, rental.Movie.Title, 0) + Environment.NewLine;
+            return (statement, rental) => statement + string.Format(format, rental.Movie.Title, rental.DaysRented, 0) + Environment.NewLine;
         }
     }
 }

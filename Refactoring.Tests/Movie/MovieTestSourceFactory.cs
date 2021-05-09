@@ -7,11 +7,18 @@ namespace Refactoring.Tests.Movie
 {
     internal static class MovieTestSourceFactory
     {
+        public delegate TMovie MovieFactory(string title);
+
         private const string MovieNameFormat = "Movie {0}";
         private const int MovieCount = 100;
         private const int SmallMovieCount = 10;
 
-        private static readonly int[] MoviePriceCodes = { TMovie.Childrens, TMovie.NewRelease, TMovie.Regular };
+        private static readonly int[] MoviePriceCodes = { RegularMovie.Code, ChildrensMovie.Code, NewReleaseMovie.Code };
+
+        private static readonly Dictionary<int, MovieFactory> MovieFactoriesByPriceCode = new Dictionary<int, MovieFactory>
+        {
+            {RegularMovie.Code, RegularMovieFactory}, {ChildrensMovie.Code, ChildrensMovieFactory}, {NewReleaseMovie.Code, NewReleaseMovieFactory}
+        };
 
         public static IEnumerable<Tuple<TMovie, int>> MovieWithPriceCodeFactory()
         {
@@ -53,7 +60,11 @@ namespace Refactoring.Tests.Movie
 
         public static TMovie MovieBuilder(int value) => MovieBuilder(string.Format(MovieNameFormat, value), value);
 
-        private static TMovie MovieBuilder(string title, int value) => new TMovie(title, MoviePriceCodes[(value * 7) % MoviePriceCodes.Length]);
+        private static TMovie MovieBuilder(string title, int value)
+        {
+            int priceCode = MoviePriceCodes[(value * 7) % MoviePriceCodes.Length];
+            return MovieFactoriesByPriceCode[priceCode].Invoke(title);
+        }
 
         private static Tuple<TMovie, int> MoviePriceCodeTupleFactory(int value) => new Tuple<TMovie, int>(MovieBuilder(value), MoviePriceCodes[(value * 7) % MoviePriceCodes.Length]);
 
@@ -62,5 +73,11 @@ namespace Refactoring.Tests.Movie
             string title = string.Format(MovieNameFormat, value);
             return new Tuple<TMovie, string>(MovieBuilder(title, value), title);
         }
+
+        private static RegularMovie RegularMovieFactory(string title) => new RegularMovie(title);
+
+        private static ChildrensMovie ChildrensMovieFactory(string title) => new ChildrensMovie(title);
+
+        private static NewReleaseMovie NewReleaseMovieFactory(string title) => new NewReleaseMovie(title);
     }
 }

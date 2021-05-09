@@ -11,6 +11,8 @@
 
         public int Code { get; }
 
-        public abstract double MeasuePriceFor(int daysRented);
+        public abstract double CalculateChargeFor(int daysRented);
+
+        public virtual int CalculateRenterPointsFor(int daysRented) => 1;
     }
 }

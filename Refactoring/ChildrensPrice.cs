@@ -10,7 +10,7 @@
         {
         }
 
-        public override double MeasuePriceFor(int daysRented)
+        public override double CalculateChargeFor(int daysRented)
         {
             return daysRented <= 3 
                 ? BasePrice 

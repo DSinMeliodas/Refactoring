@@ -12,6 +12,8 @@
 
         public int DaysRented { get; }
 
-        public double Charge => Movie.MeasureChargeFor(DaysRented);
+        public double Charge => Movie.CalculateChargeFor(DaysRented);
+
+        public int RenterPoints => Movie.CalculateRenterPointsFor(DaysRented);
     }
 }

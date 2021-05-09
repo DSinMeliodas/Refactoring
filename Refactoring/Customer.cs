@@ -39,10 +39,7 @@ namespace Refactoring
                 //determine amounts for each line
                 thisAmount = currentRental.Charge;
                 // add frequent renter points
-                frequentRenterPoints++;
-                // add bonus for a two day new release rental
-                if ((currentRental.Movie.PriceCode == NewReleasePrice.PriceCode) && currentRental.DaysRented > 1)
-                    frequentRenterPoints++;
+                frequentRenterPoints += currentRental.RenterPoints;
                 //show figures for this rental
                 rentalsString += "\t" + currentRental.Movie.Title + "\t" + "\t" + currentRental.DaysRented + "\t" + thisAmount + "\n";
                 owedAmount += thisAmount;

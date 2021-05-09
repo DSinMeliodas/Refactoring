@@ -14,6 +14,8 @@
 
         public int PriceCode => m_Price.Code;
 
-        public double MeasureChargeFor(int daysRented) => m_Price.MeasuePriceFor(daysRented);
+        public double CalculateChargeFor(int daysRented) => m_Price.CalculateChargeFor(daysRented);
+
+        public int CalculateRenterPointsFor(int daysRented) => m_Price.CalculateRenterPointsFor(daysRented);
     }
 }

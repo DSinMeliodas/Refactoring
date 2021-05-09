@@ -75,8 +75,8 @@ namespace Refactoring.Tests.Customer
             string rentalsStatement = rentals.Aggregate(string.Empty, RentalAppendFormatter(RentalStatementFormat));
             return $"<h1>Rentals for <em>{customer.Name}</em></h1><p>{Environment.NewLine}" +
                    $"{rentalsStatement}" +
-                   $"<p>You owe <em>{rentals.Sum(r=>r.Charge)}</em></p>{Environment.NewLine}" +
-                   $"On this rental you earned <em>{0}</em> frequent renter points</p>";
+                   $"<p>You owe <em>{rentals.Sum(r => r.Charge)}</em></p>{Environment.NewLine}" +
+                   $"On this rental you earned <em>{rentals.Sum(r => r.RenterPoints)}</em> frequent renter points</p>";
         }
 
         private static Func<string, TRental, string> RentalAppendFormatter(string format)

@@ -16,7 +16,7 @@ namespace Refactoring.Tests.Customer
     internal class CustomerTests
     {
         private const string RentalStatementFormat = "\t{0}\t\t{1}\t{2}";
-        private const string RentalHtmlStatementFormat = "{0}\t{1}\t{2}";
+        private const string RentalHtmlStatementFormat = TRental.HtmlFormat + "<br>";
 
         private TCustomer m_Current;
 
@@ -55,7 +55,7 @@ namespace Refactoring.Tests.Customer
             {
                 customer.AddRental(rental);
             }
-            string actual = customer.Statement();
+            string actual = customer.HtmlStatement();
             string expected = HtmlStatement(customer, rentals);
             Assert.AreEqual(expected, actual);
         }
@@ -72,16 +72,13 @@ namespace Refactoring.Tests.Customer
         private static string Statement(TCustomer customer, List<TRental> rentals)
         {
             string rentalsStatement = rentals.Aggregate(string.Empty, RentalAppendFormatter(RentalStatementFormat));
-            return string.Format(TCustomer.StatementFormat, customer.Name, rentalsStatement, rentals.Sum(r=>r.Charge), rentals.Sum(r=>r.RenterPoints));
+            return string.Format(TCustomer.StatementFormat, customer.Name, rentalsStatement, rentals.Sum(r => r.Charge), rentals.Sum(r => r.RenterPoints));
         }
 
         private static string HtmlStatement(TCustomer customer, List<TRental> rentals)
         {
             string rentalsStatement = rentals.Aggregate(string.Empty, RentalAppendFormatter(RentalHtmlStatementFormat));
-            return $"<h1>Rentals for <em>{customer.Name}</em></h1><p>{Environment.NewLine}" +
-                   $"{rentalsStatement}" +
-                   $"<p>You owe <em>{rentals.Sum(r => r.Charge)}</em></p>{Environment.NewLine}" +
-                   $"On this rental you earned <em>{rentals.Sum(r => r.RenterPoints)}</em> frequent renter points</p>";
+            return string.Format(TCustomer.HtmlStatementFormat, customer.Name, rentalsStatement, rentals.Sum(r => r.Charge), rentals.Sum(r => r.RenterPoints));
         }
 
         private static Func<string, TRental, string> RentalAppendFormatter(string format)

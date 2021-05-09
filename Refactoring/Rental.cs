@@ -2,7 +2,8 @@
 {
     internal class Rental
     {
-        public const string StatementFormat = "{0}\t\t{1}\t{2}";
+        public const string Format = "{0}\t\t{1}\t{2}";
+        public const string HtmlFormat = "{0}: {1} {2}";
 
         public Rental(Movie movie, int daysRented)
         {
@@ -18,9 +19,10 @@
 
         public int RenterPoints => Movie.CalculateRenterPointsFor(DaysRented);
 
-        public override string ToString()
-        {
-            return string.Format(StatementFormat, Movie.Title, DaysRented, Charge);
-        }
+        public override string ToString() => ToString(Format);
+
+        public string ToHtmlString() => ToString(HtmlFormat);
+
+        private string ToString(string format) => string.Format(format, Movie.Title, DaysRented, Charge);
     }
 }

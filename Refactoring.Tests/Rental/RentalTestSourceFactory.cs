@@ -25,7 +25,7 @@ namespace Refactoring.Tests.Rental
             return RentedDaysList.Select(RentalDaysRentedTupleFactory);
         }
 
-        public static IEnumerable<RentalBuilder> RentalBuilderFactory() => RentedDaysList.Select(RentalBuilderFactory);
+        public static IEnumerable<RentalBuilder> RentalBuildersFactory() => RentedDaysList.Select(RentalBuilderFactory);
 
         private static RentalBuilder RentalBuilderFactory(int daysRented) => m => new TRental(m, daysRented);
 

@@ -14,6 +14,6 @@
 
         public string Title { get; }
 
-        public int PriceCode { get; set; }
+        public int PriceCode { get; }
     }
 }

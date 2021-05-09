@@ -1,10 +1,18 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
+using System.Collections.Generic;
 
 namespace Refactoring
 {
     internal class Customer
     {
-        private readonly ArrayList m_Rentals = new ArrayList();
+        private static readonly string StatementFormat = "Rental Record for {0}" + Environment.NewLine +
+                                                         "\tTitle\t\tDays\tAmount" + Environment.NewLine +
+                                                         "{1}" + Environment.NewLine +
+                                                         "Amount owed is {2}" + Environment.NewLine +
+                                                         "You earned {3} frequent renter points";
+
+        private readonly List<Rental> m_Rentals = new List<Rental>();
 
         public Customer(string name)
         {
@@ -22,10 +30,8 @@ namespace Refactoring
         {
             double owedAmount = 0;
             int frequentRenterPoints = 0;
-            IEnumerator rentals = m_Rentals.GetEnumerator();
-            string statement = "Rental Record for " + Name + "\n";
-            statement += "\t" + "Title" + "\t" + "\t" + "Days" + "\t" + "Amount" + "\n";
-
+            using var rentals = m_Rentals.GetEnumerator();
+            string rentalsString = string.Empty;
             while (rentals.MoveNext())
             {
                 double thisAmount = 0;
@@ -38,13 +44,11 @@ namespace Refactoring
                 if ((currentRental.Movie.PriceCode == Movie.NewRelease) && currentRental.DaysRented > 1)
                     frequentRenterPoints++;
                 //show figures for this rental
-                statement += "\t" + currentRental.Movie.Title + "\t" + "\t" + currentRental.DaysRented + "\t" + thisAmount + "\n";
+                rentalsString += "\t" + currentRental.Movie.Title + "\t" + "\t" + currentRental.DaysRented + "\t" + thisAmount + "\n";
                 owedAmount += thisAmount;
             }
             //add footer lines
-            statement += "Amount owed is " + owedAmount + "\n";
-            statement += "You earned " + frequentRenterPoints + " frequent renter points";
-            return statement;
+            return string.Format(StatementFormat, Name, rentalsString, owedAmount, frequentRenterPoints);
         }
 
         private double AmountFor(Rental aRental)
@@ -52,19 +56,19 @@ namespace Refactoring
             double thisAmount = 0;
             switch (aRental.Movie.PriceCode)
             {
-                case Movie.Regular:
-                    thisAmount += 2;
-                    if (aRental.DaysRented > 2)
-                        thisAmount += (aRental.DaysRented - 2) * 1.5;
-                    break;
-                case Movie.NewRelease:
-                    thisAmount += aRental.DaysRented * 3;
-                    break;
-                case Movie.Childrens:
-                    thisAmount += 1.5;
-                    if (aRental.DaysRented > 3)
-                        thisAmount += (aRental.DaysRented - 3) * 1.5;
-                    break;
+            case Movie.Regular:
+                thisAmount += 2;
+                if (aRental.DaysRented > 2)
+                    thisAmount += (aRental.DaysRented - 2) * 1.5;
+                break;
+            case Movie.NewRelease:
+                thisAmount += aRental.DaysRented * 3;
+                break;
+            case Movie.Childrens:
+                thisAmount += 1.5;
+                if (aRental.DaysRented > 3)
+                    thisAmount += (aRental.DaysRented - 3) * 1.5;
+                break;
             }
             return thisAmount;
         }

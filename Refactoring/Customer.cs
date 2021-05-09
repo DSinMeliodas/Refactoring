@@ -6,11 +6,12 @@ namespace Refactoring
 {
     internal class Customer
     {
-        private static readonly string StatementFormat = "Rental Record for {0}" + Environment.NewLine +
+        public static readonly string StatementFormat = "Rental Record for {0}" + Environment.NewLine +
                                                          "\tTitle\t\tDays\tAmount" + Environment.NewLine +
-                                                         "{1}" + Environment.NewLine +
+                                                         "{1}" +
                                                          "Amount owed is {2}" + Environment.NewLine +
                                                          "You earned {3} frequent renter points";
+        public static readonly string RentalFormat = "\t{0}" + Environment.NewLine;
 
         private readonly List<Rental> m_Rentals = new List<Rental>();
 
@@ -28,25 +29,25 @@ namespace Refactoring
 
         public string Statement()
         {
-            double owedAmount = 0;
-            int frequentRenterPoints = 0;
-            using var rentals = m_Rentals.GetEnumerator();
-            string rentalsString = string.Empty;
-            while (rentals.MoveNext())
+            double totalFee = 0;
+            int totalRenterPoints = 0;
+            string rentalsAsString = string.Empty;
+            foreach (var rental in m_Rentals)
             {
-                double thisAmount = 0;
-                Rental currentRental = (Rental) rentals.Current;
-                //determine amounts for each line
-                thisAmount = currentRental.Charge;
-                // add frequent renter points
-                frequentRenterPoints += currentRental.RenterPoints;
-                //show figures for this rental
-                rentalsString += "\t" + currentRental.Movie.Title + "\t" + "\t" + currentRental.DaysRented + "\t" + thisAmount + "\n";
-                owedAmount += thisAmount;
+                totalFee += rental.Charge;
+                totalRenterPoints += rental.RenterPoints;
+                rentalsAsString += string.Format(RentalFormat, rental);
             }
-            //add footer lines
-            return string.Format(StatementFormat, Name, rentalsString, owedAmount, frequentRenterPoints);
+            return string.Format(StatementFormat, Name, rentalsAsString, totalFee, totalRenterPoints);
         }
 
+        /// <summary>
+        /// Needed for testing to clear input as <see cref="NUnit.Framework.ValueSourceAttribute"/> will combine factory created instances
+        /// and thus there has to be a possibility to clear the current rentals after each test.
+        /// </summary>
+        internal void ClearRentals()
+        {
+            m_Rentals.Clear();
+        }
     }
 }

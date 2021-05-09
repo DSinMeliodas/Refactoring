@@ -13,11 +13,11 @@ namespace Refactoring.Tests.Movie
         private const int MovieCount = 100;
         private const int SmallMovieCount = 10;
 
-        private static readonly int[] MoviePriceCodes = { RegularMovie.Code, ChildrensMovie.Code, NewReleaseMovie.Code };
+        private static readonly int[] MoviePriceCodes = { RegularPrice.PriceCode, ChildrensPrice.PriceCode, NewReleasePrice.PriceCode };
 
         private static readonly Dictionary<int, MovieFactory> MovieFactoriesByPriceCode = new Dictionary<int, MovieFactory>
         {
-            {RegularMovie.Code, RegularMovieFactory}, {ChildrensMovie.Code, ChildrensMovieFactory}, {NewReleaseMovie.Code, NewReleaseMovieFactory}
+            {RegularPrice.PriceCode, RegularMovieFactory}, {ChildrensPrice.PriceCode, ChildrensMovieFactory}, {NewReleasePrice.PriceCode, NewReleaseMovieFactory}
         };
 
         public static IEnumerable<Tuple<TMovie, int>> MovieWithPriceCodeFactory()

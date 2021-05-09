@@ -15,13 +15,16 @@ namespace Refactoring.Tests.Customer
 {
     internal class CustomerTests
     {
-        private const string RentalStatementFormat = "{0}\t{1}\t{2}";
+        private const string RentalStatementFormat = "\t{0}\t\t{1}\t{2}";
         private const string RentalHtmlStatementFormat = "{0}\t{1}\t{2}";
-        private static readonly string StatementFormat = "Rental Record for {0}" + Environment.NewLine +
-                                                         "\tTitle\t\tDays\tAmount" + Environment.NewLine +
-                                                         "{1}" + Environment.NewLine +
-                                                         "Amount owed is {2}" + Environment.NewLine +
-                                                         "You earned {3} frequent renter points";
+
+        private TCustomer m_Current;
+
+        [TearDown]
+        public void ClearCustomer()
+        {
+            m_Current.ClearRentals();
+        }
 
         [Test]
         public void CustomerStatementTest(
@@ -29,6 +32,7 @@ namespace Refactoring.Tests.Customer
             [ValueSource(typeof(MovieTestSourceFactory), nameof(MovieTestSourceFactory.MoviesFactory))] TMovie[] movies,
             [ValueSource(typeof(RentalTestSourceFactory), nameof(RentalTestSourceFactory.RentalBuildersFactory))] RentalTestSourceFactory.RentalBuilder builder)
         {
+            m_Current = customer;
             var rentals = movies.Select(builder.Invoke).ToList();
             foreach (var rental in rentals)
             {
@@ -45,6 +49,7 @@ namespace Refactoring.Tests.Customer
             [ValueSource(typeof(MovieTestSourceFactory), nameof(MovieTestSourceFactory.MoviesFactory))] TMovie[] movies,
             [ValueSource(typeof(RentalTestSourceFactory), nameof(RentalTestSourceFactory.RentalBuildersFactory))] RentalTestSourceFactory.RentalBuilder builder)
         {
+            m_Current = customer;
             var rentals = movies.Select(builder.Invoke).ToList();
             foreach (var rental in rentals)
             {
@@ -67,12 +72,12 @@ namespace Refactoring.Tests.Customer
         private static string Statement(TCustomer customer, List<TRental> rentals)
         {
             string rentalsStatement = rentals.Aggregate(string.Empty, RentalAppendFormatter(RentalStatementFormat));
-            return string.Format(StatementFormat, customer.Name, rentalsStatement, 0, 0);
+            return string.Format(TCustomer.StatementFormat, customer.Name, rentalsStatement, rentals.Sum(r=>r.Charge), rentals.Sum(r=>r.RenterPoints));
         }
 
         private static string HtmlStatement(TCustomer customer, List<TRental> rentals)
         {
-            string rentalsStatement = rentals.Aggregate(string.Empty, RentalAppendFormatter(RentalStatementFormat));
+            string rentalsStatement = rentals.Aggregate(string.Empty, RentalAppendFormatter(RentalHtmlStatementFormat));
             return $"<h1>Rentals for <em>{customer.Name}</em></h1><p>{Environment.NewLine}" +
                    $"{rentalsStatement}" +
                    $"<p>You owe <em>{rentals.Sum(r => r.Charge)}</em></p>{Environment.NewLine}" +

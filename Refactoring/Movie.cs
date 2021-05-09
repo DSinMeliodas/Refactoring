@@ -2,16 +2,18 @@
 {
     internal abstract class Movie
     {
-        protected Movie(string title, int priceCode)
+        private readonly Price m_Price;
+
+        protected Movie(string title, Price price)
         {
             Title = title;
-            PriceCode = priceCode;
+            m_Price = price;
         }
 
         public string Title { get; }
 
-        public int PriceCode { get; }
+        public int PriceCode => m_Price.Code;
 
-
+        public double MeasureChargeFor(int daysRented) => m_Price.MeasuePriceFor(daysRented);
     }
 }

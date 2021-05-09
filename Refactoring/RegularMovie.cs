@@ -2,9 +2,8 @@
 {
     internal class RegularMovie : Movie
     {
-        public const int Code = 0;
-
-        public RegularMovie(string title) : base(title, Code)
+        public RegularMovie(string title) 
+            : base(title, new RegularPrice())
         {
         }
     }

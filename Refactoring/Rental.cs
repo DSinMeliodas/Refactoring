@@ -11,5 +11,7 @@
         public Movie Movie { get; }
 
         public int DaysRented { get; }
+
+        public double Charge => Movie.MeasureChargeFor(DaysRented);
     }
 }

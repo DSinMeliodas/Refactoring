@@ -2,10 +2,8 @@
 {
     internal class ChildrensMovie : Movie
     {
-
-        public const int Code = 2;
-
-        public ChildrensMovie(string title) : base(title, Code)
+        public ChildrensMovie(string title) 
+            : base(title, new ChildrensPrice())
         {
         }
     }
